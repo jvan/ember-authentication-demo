@@ -51,18 +51,18 @@ App.LoginController = Ember.Controller.extend({
       });
    },
 
-   /*
-   token: localStorage.token || false,
+   token: sessionStorage.token,
+
+   isLoggedIn: sessionStorage.getItem('token') !== null,
 
    tokenChanged: function() {
-      var state = this.get('token');
-      localStorage.token = state;
-      self.set('controllers.application.isLoggedIn', state);
+      if (this.get('token') === null) {
+         delete sessionStorage.token;
+      } else {
+         sessionStorage.token = this.get('token');
+      }
    }.observes('token'),
-   */ 
-
-   isLoggedIn: false,
-
+    
    actions: {
       login: function() {
          var self = this
@@ -86,7 +86,6 @@ App.LoginController = Ember.Controller.extend({
       },
 
       logout: function() {
-         console.log('[LoginController.logout]');
          this.set('token', null);
          this.set('isLoggedIn', false);
          this.transitionToRoute('index');
