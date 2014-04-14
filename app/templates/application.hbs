@@ -1,0 +1,35 @@
+{{! Application template. }}
+<div id="main" class="container">
+   <div class="row-fluid">
+      <div class="col-md-8 col-md-offset-2">
+
+         {{! Top-level navigation. }}
+         <ul class="nav nav-tabs">
+            {{! Bootstrap requires the active class attribute to be associated with the <li> element. }}
+            {{#link-to "index" tagName="li"}}
+               <a {{bind-attr href="view.href"}}><i class="glyphicon glyphicon-home"></i> home</a>
+            {{/link-to}}
+
+            {{#link-to "articles" tagName="li"}}
+               <a {{bind-attr href="view.href"}}>articles</a>
+            {{/link-to}}
+
+            {{! Display a logout link if the user is currently logged in. }}
+            {{#if controllers.login.isLoggedIn}}
+               <li class="pull-right">
+                  <a href="#" {{action "logout" target="controllers.login"}}>logout<i class="glyphicon glyphicon-log-out"></i></a>
+               </li>
+            {{else}}
+               {{#link-to "login" tagName="li" class="pull-right"}}
+                  <a {{bind-attr href="view.href"}}>login</a>
+               {{/link-to}}
+            {{/if}}
+
+         </ul>
+
+      {{outlet}}
+      </div>
+
+   </div>
+</div>
+

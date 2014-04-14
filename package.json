@@ -1,0 +1,12 @@
+{
+  "name": "basic-auth-demo",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "^3.5.1"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.4",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-ember-templates": "^0.4.20"
+  }
+}
