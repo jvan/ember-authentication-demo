@@ -1,0 +1,11 @@
+#main {
+   margin-top: 40px;
+}
+
+.nav li {
+   cursor: pointer;
+}
+
+#login-form {
+   margin-top: 40px;
+}
