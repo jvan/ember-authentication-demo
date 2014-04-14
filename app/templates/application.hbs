@@ -1,11 +1,12 @@
-{{! Application template. }}
+{{! Main application template. }}
 <div id="main" class="container">
    <div class="row-fluid">
       <div class="col-md-8 col-md-offset-2">
 
          {{! Top-level navigation. }}
          <ul class="nav nav-tabs">
-            {{! Bootstrap requires the active class attribute to be associated with the <li> element. }}
+            {{! Bootstrap requires the active class attribute to be associated 
+               with the <li> element. }}
             {{#link-to "index" tagName="li"}}
                <a {{bind-attr href="view.href"}}><i class="glyphicon glyphicon-home"></i> home</a>
             {{/link-to}}
@@ -27,7 +28,7 @@
 
          </ul>
 
-      {{outlet}}
+         {{outlet}}
       </div>
 
    </div>
