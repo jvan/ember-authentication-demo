@@ -2,6 +2,7 @@ App = Ember.Application.create();
 
 App.Router.map(function() {
    this.route('articles');
+   this.route('admin');
    this.route('login');
 });
 
@@ -29,6 +30,12 @@ App.AuthenticatedRoute = Ember.Route.extend({
 });
 
 App.ArticlesRoute = App.AuthenticatedRoute.extend({
+   model: function() {
+      return this.getJSONWithToken('/articles.json');
+   }
+});
+
+App.AdminRoute = App.AuthenticatedRoute.extend({
    model: function() {
       return this.getJSONWithToken('/articles.json');
    }
