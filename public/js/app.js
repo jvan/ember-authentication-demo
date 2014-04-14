@@ -58,8 +58,10 @@ App.LoginController = Ember.Controller.extend({
    tokenChanged: function() {
       if (this.get('token') === null) {
          delete sessionStorage.token;
+         this.set('isLoggedIn', false);
       } else {
          sessionStorage.token = this.get('token');
+         this.set('isLoggedIn', true);
       }
    }.observes('token'),
     
@@ -72,7 +74,6 @@ App.LoginController = Ember.Controller.extend({
             self.set('errorMessage', response.message);
             if (response.success) {
                self.set('token', response.token);
-               self.set('isLoggedIn', true);
 
                var attemptedTransition = self.get('attemptedTransition');
                if (attemptedTransition) {
@@ -87,7 +88,6 @@ App.LoginController = Ember.Controller.extend({
 
       logout: function() {
          this.set('token', null);
-         this.set('isLoggedIn', false);
          this.transitionToRoute('index');
       },
    }
