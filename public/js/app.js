@@ -8,6 +8,10 @@ App.Router.map(function() {
    this.route('login');
 });
 
+DS.RESTAdapter.reopen({
+   namespace: 'api'
+});
+
 App.Article = DS.Model.extend({
    title:     DS.attr('string'),
    author:    DS.attr('string'),
@@ -40,7 +44,6 @@ App.AuthenticatedRoute = Ember.Route.extend({
 
 App.ArticlesIndexRoute = App.AuthenticatedRoute.extend({
    model: function() {
-      console.log('[ArticlesIndexRoute.model]');
       return this.getJSONWithToken('article');
    }
 });
@@ -54,7 +57,11 @@ App.ArticlesIndexController = Ember.ArrayController.extend({
 
 App.ArticlesPostRoute = App.AuthenticatedRoute.extend({
    model: function(params) {
-      return this.store.find('article', params.post_id);
+      var token = this.controllerFor('login').get('token');
+      var url = '/api/articles/'+params.post_id;
+      return Ember.$.getJSON(url, {token: token}).then(function(data) {
+         return data.article;
+      });
    }
 });
 
@@ -99,7 +106,7 @@ App.LoginController = Ember.Controller.extend({
          var self = this
            , data = this.getProperties('username', 'password');
 
-         $.post('/auth.json', data).then(function(response) {
+         $.post('/api/auth.json', data).then(function(response) {
             self.set('errorMessage', response.message);
             if (response.success) {
                self.set('token', response.token);

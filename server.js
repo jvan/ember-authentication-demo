@@ -10,7 +10,7 @@ app.set('view options', {pretty: true});
 app.set('views', __dirname + '/views');
 
 var currentToken;
-app.post('/auth.json', function(req, res) {
+app.post('/api/auth.json', function(req, res) {
    var body = req.body,
        username = body.username,
        password = body.password;
@@ -40,15 +40,17 @@ function validTokenProvided(req, res) {
   return true;
 } 
 
-app.get('/articles', function(req, res) {
+app.get('/api/articles', function(req, res) {
    if (validTokenProvided(req, res)) {
       res.send(ARTICLES);
    }
 });
 
-app.get('/articles/:article_id', function(req, res) {
-   var index = parseInt(req.params.article_id); 
-   res.send({"article": ARTICLES.articles[index]});
+app.get('/api/articles/:article_id', function(req, res) {
+   if (validTokenProvided(req, res)) {
+      var index = parseInt(req.params.article_id); 
+      res.send({"article": ARTICLES.articles[index]});
+   }
 });
 
 app.get('/', function(req, res) {
