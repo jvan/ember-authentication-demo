@@ -40,12 +40,12 @@ function validTokenProvided(req, res) {
   return true;
 } 
 
-app.get('/articles.json', function(req, res) {
-   console.log('[GET /articles.json]');
+app.get('/articles', function(req, res) {
    if (validTokenProvided(req, res)) {
       res.send(ARTICLES);
    }
 });
+
 
 app.get('/', function(req, res) {
    res.render('layout');
