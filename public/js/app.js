@@ -6,6 +6,13 @@ App.Router.map(function() {
    this.route('login');
 });
 
+App.Article = DS.Model.extend({
+   title:     DS.attr('string'),
+   author:    DS.attr('string'),
+   published: DS.attr('boolean'),
+   body:      DS.attr('string')
+});
+
 App.ApplicationController = Ember.Controller.extend({
    needs: ['login']
 });
@@ -23,24 +30,29 @@ App.AuthenticatedRoute = Ember.Route.extend({
       this.transitionTo('login');
    },
 
-   getJSONWithToken: function(url) {
+   getJSONWithToken: function(model) {
       var token = this.controllerFor('login').get('token');
-      return $.getJSON(url, {token: token});
+      return this.store.find(model, {token: token});
    }
 });
 
 App.ArticlesRoute = App.AuthenticatedRoute.extend({
    model: function() {
-      return this.getJSONWithToken('/articles.json');
+      return this.getJSONWithToken('article');
    }
+});
+
+App.ArticlesController = Ember.ArrayController.extend({
+   published: function() {
+      return this.filterProperty('published');
+   }.property('@each.published')
 });
 
 App.AdminRoute = App.AuthenticatedRoute.extend({
    model: function() {
-      return this.getJSONWithToken('/articles.json');
+      return this.getJSONWithToken('article');
    }
 });
-
 
 App.LoginRoute = Ember.Route.extend({
    setupController: function(controller, context) {
