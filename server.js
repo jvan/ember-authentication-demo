@@ -46,6 +46,10 @@ app.get('/articles', function(req, res) {
    }
 });
 
+app.get('/articles/:article_id', function(req, res) {
+   var index = parseInt(req.params.article_id); 
+   res.send({"article": ARTICLES.articles[index]});
+});
 
 app.get('/', function(req, res) {
    res.render('layout');
