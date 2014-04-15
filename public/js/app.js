@@ -1,7 +1,9 @@
 App = Ember.Application.create();
 
 App.Router.map(function() {
-   this.route('articles');
+   this.resource('articles', function() {
+      this.resource('articles.post', {path: '/:post_id'});
+   });
    this.route('admin');
    this.route('login');
 });
@@ -36,16 +38,24 @@ App.AuthenticatedRoute = Ember.Route.extend({
    }
 });
 
-App.ArticlesRoute = App.AuthenticatedRoute.extend({
+App.ArticlesIndexRoute = App.AuthenticatedRoute.extend({
    model: function() {
+      console.log('[ArticlesIndexRoute.model]');
       return this.getJSONWithToken('article');
    }
 });
 
-App.ArticlesController = Ember.ArrayController.extend({
+App.ArticlesIndexController = Ember.ArrayController.extend({
    published: function() {
       return this.filterProperty('published');
    }.property('@each.published')
+});
+
+
+App.ArticlesPostRoute = App.AuthenticatedRoute.extend({
+   model: function(params) {
+      return this.store.find('article', params.post_id);
+   }
 });
 
 App.AdminRoute = App.AuthenticatedRoute.extend({

@@ -1,0 +1,12 @@
+<h2>articles</h2>
+
+<hr/>
+
+{{#each post in published}}
+   <article>
+      <h3>{{#link-to "articles.post" post}}{{post.title}}{{/link-to}}</h3>
+      <p>posted by <em>{{post.author}}</em></p>
+      <hr/>
+   </article>
+{{/each}}
+
