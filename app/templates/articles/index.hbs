@@ -2,7 +2,7 @@
 
 <hr/>
 
-{{#each post in published}}
+{{#each post in controller}}
    <article>
       <h3>{{#link-to "articles.post" post}}{{post.title}}{{/link-to}}</h3>
       <p>posted by <em>{{post.author}}</em></p>

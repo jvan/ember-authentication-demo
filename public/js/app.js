@@ -44,16 +44,13 @@ App.AuthenticatedRoute = Ember.Route.extend({
 
 App.ArticlesIndexRoute = App.AuthenticatedRoute.extend({
    model: function() {
-      return this.getJSONWithToken('article');
+      var token = this.controllerFor('login').get('token');
+      var url = '/api/articles/published';
+      return Ember.$.getJSON(url, {token: token}).then(function(data) {
+         return data.articles;
+      });
    }
 });
-
-App.ArticlesIndexController = Ember.ArrayController.extend({
-   published: function() {
-      return this.filterProperty('published');
-   }.property('@each.published')
-});
-
 
 App.ArticlesPostRoute = App.AuthenticatedRoute.extend({
    model: function(params) {
@@ -89,6 +86,8 @@ App.LoginController = Ember.Controller.extend({
 
    token: sessionStorage.token,
 
+   isAdmin: false,
+
    isLoggedIn: sessionStorage.getItem('token') !== null,
 
    tokenChanged: function() {
@@ -110,6 +109,7 @@ App.LoginController = Ember.Controller.extend({
             self.set('errorMessage', response.message);
             if (response.success) {
                self.set('token', response.token);
+               self.set('isAdmin', response.admin);
 
                var attemptedTransition = self.get('attemptedTransition');
                if (attemptedTransition) {
@@ -124,6 +124,7 @@ App.LoginController = Ember.Controller.extend({
 
       logout: function() {
          this.set('token', null);
+         this.set('isAdmin', null);
          this.transitionToRoute('index');
       },
    }
