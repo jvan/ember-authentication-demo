@@ -15,9 +15,11 @@
                <a {{bind-attr href="view.href"}}>articles</a>
             {{/link-to}}
 
-            {{#link-to "admin" tagName="li"}}
-               <a {{bind-attr href="view.href"}}>admin</a>
-            {{/link-to}}
+            {{#if controllers.login.isAdmin}}
+               {{#link-to "admin" tagName="li"}}
+                  <a {{bind-attr href="view.href"}}>admin</a>
+               {{/link-to}}
+            {{/if}}
 
             {{! Display a logout link if the user is currently logged in. }}
             {{#if controllers.login.isLoggedIn}}
