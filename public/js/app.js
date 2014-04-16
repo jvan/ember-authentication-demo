@@ -130,7 +130,7 @@ App.LoginController = Ember.Controller.extend({
    // persist until the tab is closed (or logout).
    token: sessionStorage.token,
 
-   isLoggedIn: this.token !== null,
+   isLoggedIn: sessionStorage.getItem('token') !== null,
 
    isAdmin: false,
 
