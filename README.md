@@ -7,10 +7,11 @@ This application requires [node][node] and [grunt][grunt]. You can download
 a node installer [here][node-download].
 
 After installing node on your system, install the grunt command-line 
-application.
+application and required node packages.
 
 ```shell
 sudo npm install -g grunt-cli
+npm install
 ```
 
 Once the necessary pacakges are installed, build the ember templates by 
