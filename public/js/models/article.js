@@ -9,7 +9,7 @@ App.Article = DS.Model.extend({
 });
 
 // Configure the REST adapter to work with our API.
-DS.RESTAdapter.reopen({
-   namespace: 'api'
+App.ApplicationAdapter = DS.RESTAdapter.extend({
+   namespace: 'api',
 });
 
