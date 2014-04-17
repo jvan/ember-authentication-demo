@@ -15,10 +15,12 @@ App.AuthenticatedRoute = Ember.Route.extend({
       this.transitionTo('login');
    },
 
-   getJSONWithToken: function(model) {
+   initializeHeader: function() {
       var token = this.controllerFor('login').get('token');
-      return this.store.find(model, {token: token});
+      var adapter = this.get('container').lookup('adapter:application');
+      adapter.set('headers', {'token': token});
    }
+
 });
 
 
@@ -45,15 +47,8 @@ App.ArticlesIndexRoute = App.AuthenticatedRoute.extend({
 // Display data for a specific article.
 App.ArticlesPostRoute = App.AuthenticatedRoute.extend({
    model: function(params) {
-      var token = this.controllerFor('login').get('token');
-      var url = '/api/articles/'+params.post_id;
-
-      // NOTE: The store.find(...) method can take an additional id parameter
-      // for retrieving a specific item. However, it does not seem to work with
-      // the additional token data.
-      return Ember.$.getJSON(url, {token: token}).then(function(data) {
-         return data.article;
-      });
+      this.initializeHeader();
+      return this.store.find('article', params.post_id);
    }
 });
 
@@ -63,7 +58,8 @@ App.ArticlesPostRoute = App.AuthenticatedRoute.extend({
 // Display all articles (published and unpublished).
 App.AdminRoute = App.AuthenticatedRoute.extend({
    model: function() {
-      return this.getJSONWithToken('article');
+      this.initializeHeader();
+      return this.store.find('article');
    }
 });
 
