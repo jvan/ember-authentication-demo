@@ -10,11 +10,11 @@ App.LoginController = Ember.Controller.extend({
 
    // Initialize user token using value in sessionStorage. This value will
    // persist until the tab is closed (or logout).
-   token: sessionStorage.token,
+   token: sessionStorage.getItem('token'),
 
    isLoggedIn: sessionStorage.getItem('token') !== null,
 
-   isAdmin: false,
+   isAdmin: sessionStorage.getItem('isAdmin'),
 
    // When the token value is changed, save the value in sessionStorage and
    // update the isLoggedIn property.
@@ -27,6 +27,14 @@ App.LoginController = Ember.Controller.extend({
          this.set('isLoggedIn', true);
       }
    }.observes('token'),
+
+   adminChanged: function() {
+      if (this.get('isAdmin') === null) {
+         delete sessionStorage.isAdmin;
+      } else {
+         sessionStorage.isAdmin = true;
+      }
+   }.observes('isAdmin'),
     
    actions: {
       // Attempt to authenticate the user.
